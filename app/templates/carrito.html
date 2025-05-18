@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de compras</title>
+</head>
+<body>
+    <h1>Carrito de Compras</h1>
+    <a href="{{ url_for('productos') }}">Volver a productos</a>
+    <hr>
+    {% if carrito %}
+        <table border="1" cellpadding="10" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio unitario</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id, item in carrito.items() %}
+                <tr>
+                    <td>{{ item.nombre }}</td>
+                    <td>${{ '%.2f' % item.precio }}</td>
+                    <td>
+                        <form action="{{ url_for('cambiar_cantidad', id=id) }}" method="post">
+                            <input type="number" name="cantidad" value="{{ item.cantidad }}" min="0" style="width: 50px;">
+                            <button type="submit">Actualizar</button>
+                        </form>
+                    </td>
+                    <td>${{ '%.2f' % (item.precio * item.cantidad) }}</td>
+                    <td>
+                        <form action="{{ url_for('eliminar_producto', id=id) }}" method="post">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3"><strong>Total</strong></td>
+                    <td colspan="2"><strong>${{ '%.2f' % total }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    {% else %}
+        <p>El carrito está vacío.</p>
+    {% endif %}
+</body>
+</html>

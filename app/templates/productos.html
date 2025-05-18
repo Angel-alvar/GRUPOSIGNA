@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f4f8;
+        }
+
+        header {
+            text-align: center;
+            background-color: #0077cc;
+            color: white;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        .contenedor-productos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .producto {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            padding: 15px;
+            width: 220px;
+            text-align: center;
+        }
+
+        .producto img {
+            width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Productos Disponibles</h1>
+        <nav>
+            <a href="{{ url_for('inicio') }}">Inicio</a> |
+            <a href="{{ url_for('productos') }}">Productos</a> |
+            <a href="{{ url_for('ver_carrito') }}">Ver carrito 🛒</a>
+        </nav>
+    </header>
+
+    <div class="contenedor-productos">
+        {% for producto in productos %}
+        <div class="producto">
+            <img src="{{ url_for('static', filename=producto.imagen) }}" alt="{{ producto.nombre }}">
+            <h2>{{ producto.nombre }}</h2>
+            <p><strong>Precio:</strong> ${{ '%.2f' % producto.precio }}</p>
+            <a href="{{ url_for('agregar_al_carrito', id=producto.id) }}">
+                <button>Añadir al carrito</button>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
