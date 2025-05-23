@@ -77,6 +77,21 @@
         </nav>
     </header>
 
+    <div class="filtro">
+        <form method="get" action="{{ url_for('productos') }}">
+            <label for="categoria">Filtrar por categoría:</label>
+            <select name="categoria" id="categoria">
+                <option value="">-- Todas --</option>
+                <option value="resistencia" {% if categoria == 'resistencia' %}selected{% endif %}>Resistencias</option>
+                <option value="capacitor" {% if categoria == 'capacitor' %}selected{% endif %}>Capacitores</option>
+                <option value="microcontrolador" {% if categoria == 'microcontrolador' %}selected{% endif %}>Microcontroladores</option>
+                <option value="sensor" {% if categoria == 'sensor' %}selected{% endif %}>Sensores</option>
+                <option value="otro" {% if categoria == 'otro' %}selected{% endif %}>Otros</option>
+            </select>
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
+
     <div class="contenedor-productos">
         {% for producto in productos %}
         <div class="producto">
